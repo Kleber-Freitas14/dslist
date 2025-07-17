@@ -1,6 +1,7 @@
 package com.mpv.dslist.services;
 
 
+import com.mpv.dslist.Projection.GameMinProjection;
 import com.mpv.dslist.dto.GameDTO;
 import com.mpv.dslist.dto.GameMinDTO;
 import com.mpv.dslist.entities.Game;
@@ -26,6 +27,13 @@ public class GameService {
     @Transactional(readOnly = true)
     public List<GameMinDTO> findAll(){
         List<Game> result = gameRepository.findAll();
+        return result.stream().map(x -> new GameMinDTO(x)).toList();
+
+    }
+
+    @Transactional(readOnly = true)
+    public List<GameMinDTO> findByList(long listId){
+        List<GameMinProjection> result = gameRepository.searchByList(listId);
         return result.stream().map(x -> new GameMinDTO(x)).toList();
 
     }
